@@ -3,268 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Verification</title>
-    <!-- FontAwesome for Icons -->
+    <title>MADXROHITBIHAR | App Unlock Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         :root {
-            --bg-dark: #0b0f19;
-            --card-bg: #111827;
-            --accent-gold: #f59e0b;
-            --accent-gold-hover: #d97706;
-            --text-main: #ffffff;
-            --text-secondary: #9ca3af;
-            --border-color: #374151;
+            --bg-deep: #05050a;
+            --bg-card: rgba(13, 15, 26, 0.95);
+            --border-neon: rgba(255, 170, 0, 0.4);
+            --neon-gold: #ffaa00;
+            --neon-green: #00ff66;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --gradient-btn: linear-gradient(135deg, #ffaa00 0%, #ff6600 100%);
         }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+        body { 
+            background-color: var(--bg-deep); 
+            color: var(--text-primary); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            background: radial-gradient(circle at 50% -20%, #1a1c3a 0%, var(--bg-deep) 70%); 
+            font-family: sans-serif; 
+        }
+        .card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-neon); 
+            padding: 30px 25px; 
+            border-radius: 20px; 
+            text-align: center; 
+            max-width: 360px; 
+            width: 90%; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
+        }
+        .logo-container {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 15px auto;
+            border-radius: 50%;
+            border: 2px solid var(--neon-gold);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background: rgba(255, 170, 0, 0.1);
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.3);
         }
-
-        /* Verification Gate Overlay */
-        #verify-gate {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .logo-container img {
             width: 100%;
             height: 100%;
-            background-color: rgba(11, 15, 25, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-
-        .verify-card {
-            background-color: var(--card-bg);
-            border: 2px solid var(--accent-gold);
-            border-radius: 20px;
-            padding: 25px 20px;
-            width: 100%;
-            max-width: 380px;
-            text-align: center;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
-        }
-
-        .verify-avatar-small img {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--accent-gold);
-            margin-bottom: 12px;
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
         }
-
-        .verify-title {
+        h2 { 
+            color: var(--text-primary); 
+            margin-bottom: 10px; 
             font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-            color: var(--text-main);
-            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
-        .verify-text {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
+        .desc {
+            color: var(--text-secondary); 
+            font-size: 13px; 
+            margin-bottom: 25px; 
             line-height: 1.5;
         }
-
-        .verify-input {
-            width: 100%;
-            padding: 12px 15px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 14px;
-            text-align: center;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+        .key-input { 
+            width: 100%; 
+            padding: 14px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-neon); 
+            background: rgba(255,255,255,0.03); 
+            color: #fff; 
+            text-align: center; 
+            margin-bottom: 15px; 
+            outline: none; 
             box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .verify-input:focus {
-            border-color: var(--accent-gold);
-        }
-
-        .verify-secondary-btn, .verify-main-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
             font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            border: none;
-            transition: background-color 0.3s, transform 0.1s;
+            letter-spacing: 1px;
         }
-
-        .verify-secondary-btn {
-            background-color: transparent;
-            border: 1px solid var(--accent-gold);
-            color: var(--accent-gold);
+        .key-input::placeholder {
+            color: #55607a;
         }
-
-        .verify-secondary-btn:hover {
-            background-color: rgba(245, 158, 11, 0.1);
+        .btn { 
+            padding: 14px; 
+            border-radius: 12px; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            width: 100%; 
+            margin-bottom: 12px; 
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: opacity 0.2s;
         }
-
-        .verify-main-btn {
-            background-color: var(--accent-gold);
+        .btn:active {
+            opacity: 0.85;
+        }
+        .btn-get { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid var(--border-neon); 
+            color: var(--text-primary);
+        }
+        .btn-verify { 
+            background: var(--gradient-btn); 
             color: #000;
         }
-
-        .verify-main-btn:hover {
-            background-color: var(--accent-gold-hover);
-        }
-
-        .verify-footer-text {
-            font-size: 11.5px;
+        .telegram-text {
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-top: 14px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
+            margin-top: 15px;
         }
-
-        #status-msg {
-            font-size: 12px;
-            margin-top: 10px;
-            font-weight: 600;
+        .telegram-text a {
+            color: var(--neon-gold);
+            text-decoration: none;
+            font-weight: bold;
         }
+        .telegram-text a:hover {
+            text-decoration: underline;
+        }
+        #status-msg { 
+            font-size: 13px; 
+            margin-top: 10px; 
+            font-weight: bold; 
+            min-height: 18px;
+        }
+        #mainAppContent { display: none; text-align: center; }
     </style>
 </head>
 <body>
 
-    <!-- Verification Gate Overlay -->  
-    <div id="verify-gate">  
-        <div class="verify-card">  
-            <div class="verify-avatar-small">  
-                <img src="https://i.postimg.cc/767wxWNM/750582767-1017528391240334-3988665459253503214-n.webp" alt="Logo">  
-            </div>  
-            <h3 class="verify-title">Device Verification</h3>  
-            <p class="verify-text">Please enter your access key obtained from Get Key to unlock the portal (24 Hours Validity).</p>  
-              
-            <input type="text" id="accessKeyInput" class="verify-input" placeholder="ENTER ACCESS KEY" autocomplete="off">  
-              
-            <button id="getKeyBtn" class="verify-secondary-btn" onclick="handleGetKey()">  
-                <i class="fa-solid fa-key"></i> Get Key  
-            </button>  
-              
-            <button class="verify-main-btn" onclick="verifyUserKey()">  
-                <i class="fa-solid fa-lock-open"></i> Verify & Open App  
-            </button>  
+    <div class="card" id="authScreen">
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/767wxWNM/750582767-1017528391240334-3988665459253503214-n.webp" alt="Logo" id="appLogo">
+        </div>
+        
+        <h2>DEVICE VERIFICATION</h2>
+        <p class="desc">Please enter your access key obtained from Get Key to unlock the portal (24 Hours Validity).</p>
+        
+        <input type="text" id="accessKeyInput" class="key-input" placeholder="ENTER ACCESS KEY">
+        
+        <button class="btn btn-get" onclick="openAroLinks()">
+            <i class="fa-solid fa-key" style="color: var(--neon-gold);"></i> Get Key
+        </button>
+        <button class="btn btn-verify" onclick="verifyUserKey()">
+            <i class="fa-solid fa-lock-open"></i> Verify & Open App
+        </button>
 
-            <div class="verify-footer-text">  
-                Need a key? Join our <span onclick="openExternal('https://t.me/+cw7TRotEzcczNThl')" style="color: var(--accent-gold); cursor: pointer; text-decoration: underline;">Telegram</span>  
-            </div>  
+        <div class="telegram-text">
+            Need a key? Join our <a href="https://t.me/+cw7TRotEzcczNThl" target="_blank">Telegram</a>
+        </div>
 
-            <div id="status-msg"></div>  
-        </div>  
+        <div id="status-msg"></div>
+    </div>
+
+    <div id="mainAppContent">
+        <h1 style="color: var(--neon-green);">Welcome to MADXROHITBIHAR!</h1>
     </div>
 
     <script>
-        function handleGetKey() {
-            const btn = document.getElementById('getKeyBtn');
-            const statusMsg = document.getElementById('status-msg');
-            
-            btn.disabled = true;
-            statusMsg.style.color = "var(--accent-gold)";
-            statusMsg.innerText = "Generating key link...";
-            
-            // Destination URL jisko short karna hai
-            const destinationUrl = encodeURIComponent("https://yourwebsite.com/target-page");
+        function openAroLinks() {
             const apiToken = "828c34db80ec53e94e7174f5f52e0b274a38ab2d";
-            
-            // Arolinks API endpoint
-            const arolinksURL = `https://arolinks.com/api?api=${apiToken}&url=${destinationUrl}&format=text`;
+            const targetUrl = "https://madxrohitbihari.github.io/KYE-SYSTEM-GRENRTED/";
+            const apiUrl = `https://arolinks.com/api?api=${apiToken}&url=${encodeURIComponent(targetUrl)}`;
 
-            // Turant API fetch execute hoga bina kisi delay ke
-            fetch(arolinksURL)
-                .then(response => response.text())
-                .then(shortLink => {
-                    if(shortLink && shortLink.startsWith('http')) {
-                        window.open(shortLink.trim(), '_blank');
-                        statusMsg.style.color = "#10b981";
-                        statusMsg.innerText = "Link opened successfully!";
+            const msgDiv = document.getElementById("status-msg");
+            msgDiv.style.color = "var(--neon-gold)";
+            msgDiv.innerText = "Generating Link...";
+            
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success" && data.shortenedUrl) {
+                        window.location.href = data.shortenedUrl;
                     } else {
-                        window.open(`https://arolinks.com/api?api=${apiToken}&url=${destinationUrl}`, '_blank');
-                        statusMsg.style.color = "#10b981";
-                        statusMsg.innerText = "Link generated!";
+                        msgDiv.style.color = "#ff4444";
+                        msgDiv.innerText = "Error generating link!";
                     }
                 })
-                .catch(error => {
-                    window.open(`https://arolinks.com/api?api=${apiToken}&url=${destinationUrl}`, '_blank');
-                    statusMsg.style.color = "#10b981";
-                    statusMsg.innerText = "Redirected to Get Key!";
+                .catch(() => {
+                    msgDiv.style.color = "#ff4444";
+                    msgDiv.innerText = "Network Error!";
                 });
-
-            // Reset button state after 2 seconds
-            setTimeout(() => {
-                btn.disabled = false;
-                statusMsg.innerText = "";
-            }, 2000);
-        }
-
-        function openExternal(url) {
-            window.open(url, '_blank');
         }
 
         function verifyUserKey() {
-            const keyInput = document.getElementById('accessKeyInput').value.trim();
-            const statusMsg = document.getElementById('status-msg');
-
-            if(keyInput === "") {
-                statusMsg.style.color = "#ef4444";
-                statusMsg.innerText = "Please enter a valid access key!";
-                return;
-            }
-
-            if(keyInput.length > 5) { 
-                statusMsg.style.color = "#10b981";
-                statusMsg.innerText = "Verification Successful! Opening app...";
-                
-                // Save state for 24 hours validity
-                localStorage.setItem('device_verified', 'true');
-                localStorage.setItem('verify_time', new Date().getTime());
-
-                setTimeout(() => {
-                    document.getElementById('verify-gate').style.display = 'none';
-                }, 1000);
+            const userKey = document.getElementById("accessKeyInput").value.trim();
+            const msgDiv = document.getElementById("status-msg");
+            
+            if (userKey.length >= 4) {
+                document.getElementById('authScreen').style.display = 'none';
+                document.getElementById('mainAppContent').style.display = 'block';
             } else {
-                statusMsg.style.color = "#ef4444";
-                statusMsg.innerText = "Invalid Key! Try again.";
-            }
-        }
-
-        // Check if already verified within 24 hours
-        window.onload = function() {
-            const isVerified = localStorage.getItem('device_verified');
-            const verifyTime = localStorage.getItem('verify_time');
-            const currentTime = new Date().getTime();
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-
-            if (isVerified && verifyTime && (currentTime - verifyTime < twentyFourHours)) {
-                document.getElementById('verify-gate').style.display = 'none';
+                msgDiv.style.color = "#ff4444";
+                msgDiv.innerText = "Invalid Access Key!";
             }
         }
     </script>
