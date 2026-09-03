@@ -36,6 +36,7 @@
             max-width: 360px; 
             width: 90%; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
+            position: relative;
         }
         .logo-container {
             width: 75px;
@@ -113,6 +114,7 @@
             font-size: 13px;
             color: var(--text-secondary);
             margin-top: 15px;
+            margin-bottom: 10px;
         }
         .telegram-text a {
             color: var(--neon-gold);
@@ -124,9 +126,39 @@
         }
         #status-msg { 
             font-size: 13px; 
-            margin-top: 10px; 
+            margin-top: 5px; 
+            margin-bottom: 15px;
             font-weight: bold; 
             min-height: 18px;
+        }
+        #toast {
+            visibility: hidden;
+            min-width: 240px;
+            background-color: #1a1c3a;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 30px;
+            transform: translateX(-50%);
+            border: 1px solid var(--border-neon);
+            font-size: 13px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein {
+            from {top: 0; opacity: 0;}
+            to {top: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {top: 30px; opacity: 1;}
+            to {top: 0; opacity: 0;}
         }
         #mainAppContent { display: none; text-align: center; }
     </style>
@@ -141,7 +173,7 @@
         <h2>DEVICE VERIFICATION</h2>
         <p class="desc">Please enter your access key obtained from Get Key to unlock the portal (24 Hours Validity).</p>
         
-        <input type="text" id="accessKeyInput" class="key-input" placeholder="ENTER ACCESS KEY">
+        <input type="text" id="accessKeyInput" class="key-input" placeholder="ENTER ACCESS KEY" maxlength="30">
         
         <button class="btn btn-get" onclick="openAroLinks()">
             <i class="fa-solid fa-key" style="color: var(--neon-gold);"></i> Get Key
@@ -161,7 +193,16 @@
         <h1 style="color: var(--neon-green);">Welcome to MADXROHITBIHAR!</h1>
     </div>
 
+    <div id="toast"></div>
+
     <script>
+        function showToast(text) {
+            const toast = document.getElementById("toast");
+            toast.innerText = text;
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
         function openAroLinks() {
             const apiToken = "828c34db80ec53e94e7174f5f52e0b274a38ab2d";
             const targetUrl = "https://madxrohitbihari.github.io/KYE-SYSTEM-GRENRTED/";
@@ -170,6 +211,7 @@
             const msgDiv = document.getElementById("status-msg");
             msgDiv.style.color = "var(--neon-gold)";
             msgDiv.innerText = "Generating Link...";
+            showToast("Generating Access Link...");
             
             fetch(apiUrl)
                 .then(response => response.json())
@@ -179,24 +221,57 @@
                     } else {
                         msgDiv.style.color = "#ff4444";
                         msgDiv.innerText = "Error generating link!";
+                        showToast("Error generating link!");
                     }
                 })
                 .catch(() => {
                     msgDiv.style.color = "#ff4444";
                     msgDiv.innerText = "Network Error!";
+                    showToast("Network Error!");
                 });
         }
 
         function verifyUserKey() {
             const userKey = document.getElementById("accessKeyInput").value.trim();
             const msgDiv = document.getElementById("status-msg");
-            
-            if (userKey.length >= 4) {
+            const lengthErrorMsg = "⚠️ Invalid code! Please enter the right code";
+            const usedErrorMsg = "⚠️ Invalid code! This key has already been used. Please get a new key.";
+            const successMsg = "Portal Unlocked Successfully!";
+
+            if (userKey.length !== 30) {
+                msgDiv.style.color = "#ff4444";
+                msgDiv.innerText = lengthErrorMsg;
+                showToast(lengthErrorMsg);
+                return;
+            }
+
+            const storageKey = "used_key_" + userKey;
+            const isAlreadyUsed = localStorage.getItem(storageKey);
+
+            if (isAlreadyUsed) {
+                msgDiv.style.color = "#ff4444";
+                msgDiv.innerText = usedErrorMsg;
+                showToast(usedErrorMsg);
+                return;
+            }
+
+            localStorage.setItem(storageKey, "true");
+            msgDiv.style.color = "#00ff66";
+            msgDiv.innerText = successMsg;
+            showToast(successMsg);
+
+            setTimeout(() => {
                 document.getElementById('authScreen').style.display = 'none';
                 document.getElementById('mainAppContent').style.display = 'block';
+            }, 1000);
+        }
+
+        function toggleFavorite(appName, element) {
+            const isFav = element.classList.toggle('favorited');
+            if (isFav) {
+                showToast("Added to Favorites");
             } else {
-                msgDiv.style.color = "#ff4444";
-                msgDiv.innerText = "Invalid Access Key!";
+                showToast("Removed from Favorites");
             }
         }
     </script>
